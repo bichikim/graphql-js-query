@@ -1,7 +1,7 @@
 {
   "name": "graohql-js-query",
   "version": "0.0.1",
-  "description": "A quick way to start typescriptp",
+  "description": "a way to make a graphql query in js style",
   "author": "bichi",
   "main": "dist/app.js",
   "types": "types.ts",
