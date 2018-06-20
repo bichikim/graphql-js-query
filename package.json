@@ -1,5 +1,5 @@
 {
-  "name": "graohql-js-query",
+  "name": "graphql-js-query",
   "version": "0.0.5",
   "description": "a way to make a graphql query in js style",
   "author": "bichi",

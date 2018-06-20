@@ -1,4 +1,4 @@
-![intro](./media/intro.svg)
+![intro](./media/intro.png)
 # Graphql JS Query
 > Js style Graphql Query
 
