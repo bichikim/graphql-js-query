@@ -6,7 +6,7 @@ interface IResultObjectItem {
   [name: string]: string
 }
 
-const dataDeco = (data: any, argumentMode: boolean = true): string => {
+const decorateData = (data: any, argumentMode: boolean = true): string => {
   if(typeof data === 'string'){
     return `"${data}"`
   }
@@ -18,11 +18,11 @@ const dataDeco = (data: any, argumentMode: boolean = true): string => {
   }
   if(Array.isArray(data)){
     if(argumentMode){
-      return `[${data.map((value) => (dataDeco(value))).join(',')}]`
+      return `[${data.map((value) => (decorateData(value))).join(',')}]`
     }
     return `{${data.map((value) => {
       // string won't be changed in the none argumentMode
-      return typeof value === 'string' ? value : dataDeco(value, argumentMode)
+      return typeof value === 'string' ? value : decorateData(value, argumentMode)
     }).join(',')}}`
   }
   const result: string = objectSmoothing(data, argumentMode).join(',')
@@ -47,7 +47,7 @@ const objectSmoothing = (
         separator = ''
       }
     }
-    args.push(`${key}${separator}${dataDeco(data, argumentMode)}`)
+    args.push(`${key}${separator}${decorateData(data, argumentMode)}`)
   })
   return args
 }
@@ -77,7 +77,7 @@ class QueryBuilder {
       _string += `(${objectSmoothing(_args).join(',')})`
     }
     if(_results && _results.length > 0){
-      _string += `${dataDeco(_results, false)}`
+      _string += `${decorateData(_results, false)}`
     }
     return _string
   }
