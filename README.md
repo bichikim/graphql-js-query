@@ -4,6 +4,12 @@
 
 [![Build Status](https://travis-ci.org/bichikim/keg.svg?branch=master)](https://travis-ci.org/bichikim/graphql-js-query)
 [![Codecov](https://img.shields.io/codecov/c/github/bichikim/keg.svg)](https://codecov.io/github/bichikim/graphql-js-query)
+
+```bash
+$ npm install graphql-js-query
+$ yarn add graphql-js-query
+```
+
 ## How to use
 ```javascript
 import query from './src'
