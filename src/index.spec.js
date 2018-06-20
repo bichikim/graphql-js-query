@@ -45,11 +45,11 @@ describe('graphql-query-builder', () => {
       user: {name: 'bob'},
       friends: [
         {id: 1, name: 'ann'},
-        {id: 1, name: 'tom'},
+        {id: 2, name: 'tom'},
       ],
     })().toString()
     expect(result.toString()).to.equal(
-      'user(user:{name:"bob"},friends:[{id:1,name:"ann"},{id:1,name:"tom"}])'
+      'user(user:{name:"bob"},friends:[{id:1,name:"ann"},{id:2,name:"tom"}])'
     )
   })
   it('should work without arguments & results', () => {
