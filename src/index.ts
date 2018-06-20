@@ -52,13 +52,6 @@ const objectSmoothing = (
   return args
 }
 
-const resultFactory = (item: string | IResultObjectItem) => {
-  if(typeof item === 'string'){
-    return item
-  }
-  return objectSmoothing(item, false).join(',')
-}
-
 interface IQueryBuilderPayload {
   name: string[]
   args: IArguments
@@ -84,7 +77,7 @@ class QueryBuilder {
       _string += `(${objectSmoothing(_args).join(',')})`
     }
     if(_results && _results.length > 0){
-      _string += `{${_results.map(resultFactory).join(',')}}`
+      _string += `${dataDeco(_results, false)}`
     }
     return _string
   }
