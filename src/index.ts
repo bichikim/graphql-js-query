@@ -21,6 +21,7 @@ const decorateData = (data: any, argumentMode: boolean = true): string => {
       return `[${data.map((value) => (decorateData(value))).join(',')}]`
     }
     return `{${data.map((value) => {
+      // only in array
       // string won't be changed in the none argumentMode
       return typeof value === 'string' ? value : decorateData(value, argumentMode)
     }).join(',')}}`
