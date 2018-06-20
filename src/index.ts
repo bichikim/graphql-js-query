@@ -1,10 +1,6 @@
 export interface IArguments {
   [name: string]: string | number
 }
-export type TQueryFunction = () => {}
-export interface IQueries {
-  [name: string]: TQueryFunction
-}
 
 interface IResultObjectItem {
   [name: string]: string
@@ -20,15 +16,12 @@ const dataDeco = (data: any, argumentMode: boolean = true): string => {
   if(data instanceof QueryBuilder){
     return `${data.toString()}`
   }
-  if(typeof data === 'function'){
-    return dataDeco(data())
-  }
   if(Array.isArray(data)){
     if(argumentMode){
       return `[${data.map((value) => (dataDeco(value))).join(',')}]`
     }
     return `{${data.map((value) => {
-      // string won't be changed in the argumentMode
+      // string won't be changed in the none argumentMode
       return typeof value === 'string' ? value : dataDeco(value, argumentMode)
     }).join(',')}}`
   }
@@ -84,7 +77,8 @@ class QueryBuilder {
   }
 
   toString() {
-    const {_args, _results} = this
+    const _results = this._results
+    const _args = this._args
     let _string = this._name.join(':')
     if(_args){
       _string += `(${objectSmoothing(_args).join(',')})`
