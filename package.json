@@ -1,10 +1,10 @@
 {
   "name": "graphql-js-query",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "a way to make a graphql query in js style",
   "author": "bichi",
   "main": "dist/app.js",
-  "types": "types.ts",
+  "types": "types.d.ts",
   "license": "MIT",
   "scripts": {
     "build": "babel-node build",
