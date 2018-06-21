@@ -2,7 +2,7 @@ export interface IArguments {
   [name: string]: string | number
 }
 
-interface IResultObjectItem {
+export interface IResultObjectItem {
   [name: string]: string
 }
 
@@ -53,13 +53,13 @@ const objectSmoothing = (
   return args
 }
 
-interface IQueryBuilderPayload {
+export interface IQueryBuilderPayload {
   name: string[]
   args: IArguments
   results: any[]
 }
 
-class QueryBuilder {
+export class QueryBuilder {
   private readonly _name: string[]
   private readonly _args: IArguments
   private readonly _results: any[]
