@@ -84,6 +84,12 @@ export class QueryBuilder {
   }
 }
 
+export const request = (query: QueryBuilder, value: any = null) => {
+  const queryString = query.toString()
+  console.log(queryString, value)
+  // todo should request
+}
+
 export default (...name: string[]) => {
   return (args: any) => {
     return (...results: any[]) => {
