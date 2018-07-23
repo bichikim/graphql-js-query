@@ -1,5 +1,4 @@
 import query from './'
-import sinon from 'sinon'
 describe('graphql-js-query', () => {
   const image = query('image')({size: 50})('url', 'width', 'height')
 
@@ -65,20 +64,50 @@ describe('graphql-js-query', () => {
     })
   })
   describe('request', () => {
-    let spyFetch, result
-    beforeEach(() => {
-      spyFetch =  sinon.spy(window, 'fetch')
+    let realFetch, url, request
+    before(() => {
+      realFetch = window.fetch
+      window.fetch = (_url, _request) => {
+        url = _url
+        request = _request
+        return Promise.resolve('result')
+      }
+
     })
-    afterEach(() => {
-      spyFetch.restore()
+
+    after(() => {
+      window.fetch = realFetch
     })
-    it('should work', () => {
-      const result = image.request('abc')
-      const args = spyFetch.getCall(0).args
-      console.log(args[1])
-      expect(args[0]).to.equal('abc')
-      expect(args[1].body).to.equal('{"query":"image(size:50){url,width,height}"}')
-      expect(args[1].headers).to.equal({})
+
+    it('should work', async () => {
+      const result = await image.request('abc')
+      expect(url).to.equal('abc')
+      expect(JSON.parse(request.body)).to.deep.equal({'query':'image(size:50){url,width,height}'})
+      expect(request.headers).to.deep.equal({'Content-Type': 'application/json'})
+      expect(result).to.equal('result')
+    })
+
+    it('should work with params', async () => {
+      const result = await image.request('abc', {item: 'item'})
+      expect(url).to.equal('abc')
+      expect(JSON.parse(request.body)).to.deep.equal({
+        'query':'image(size:50){url,width,height}',
+        'variables': {item: 'item'},
+      })
+      expect(request.headers).to.deep.equal({'Content-Type': 'application/json'})
+      expect(result).to.equal('result')
+    })
+
+    it('should work with params', async () => {
+      const result = await image.request('abc', {item: 'item'}, {mode: 'cors'})
+      expect(url).to.equal('abc')
+      expect(JSON.parse(request.body)).to.deep.equal({
+        'query':'image(size:50){url,width,height}',
+        'variables': {item: 'item'},
+      })
+      expect(request.headers).to.deep.equal({'Content-Type': 'application/json'})
+      expect(request.mode).to.equal('cors')
+      expect(result).to.equal('result')
     })
   })
 })
