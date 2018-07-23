@@ -1,14 +1,3 @@
-import query, {
-  IQueryBuilderPayload,
-  QueryBuilder,
-  IArguments,
-  IResultObjectItem,
-} from './src'
+export * from './src'
+import query from './src'
 export default query
-
-export {
-  IResultObjectItem,
-  QueryBuilder,
-  IArguments,
-  IQueryBuilderPayload,
-}

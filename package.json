@@ -1,6 +1,6 @@
 {
   "name": "graphql-js-query",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "a way to make a graphql query in js style",
   "author": "bichi",
   "main": "dist/app.js",
