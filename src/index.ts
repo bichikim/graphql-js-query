@@ -2,10 +2,6 @@ export interface IArguments {
   [name: string]: string | number
 }
 
-export interface IResultObjectItem {
-  [name: string]: string
-}
-
 const decorateData = (data: any, argumentMode: boolean = true): string => {
   if(typeof data === 'string'){
     return `"${data}"`
