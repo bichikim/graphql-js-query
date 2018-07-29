@@ -2,10 +2,6 @@ export interface IArguments {
   [name: string]: string | number
 }
 
-export interface IResultObjectItem {
-  [name: string]: string
-}
-
 const decorateData = (data: any, argumentMode: boolean = true): string => {
   if(typeof data === 'string'){
     return `"${data}"`
@@ -59,6 +55,21 @@ export interface IQueryBuilderPayload {
   results: any[]
 }
 
+export interface IRequestOptions {
+  cache?: RequestCache;
+  credentials?: RequestCredentials;
+  headers?: HeadersInit;
+  integrity?: string;
+  keepalive?: boolean;
+  method?: string;
+  mode?: RequestMode;
+  redirect?: RequestRedirect;
+  referrer?: string;
+  referrerPolicy?: ReferrerPolicy;
+  signal?: AbortSignal;
+  window?: any;
+}
+
 export class QueryBuilder {
   private readonly _name: string[]
   private readonly _args: IArguments
@@ -81,6 +92,29 @@ export class QueryBuilder {
       _string += `${decorateData(_results, false)}`
     }
     return _string
+  }
+
+  request(url: string, params?: any, options: IRequestOptions = {}): Promise<any> {
+    const {headers = [], ...otherOptions} = options
+    const graphqlQuery = this.toString()
+    const body: any = {
+      query: graphqlQuery,
+    }
+    if(params){
+      body.variables = params
+    }
+    return fetch(url, {
+      method: 'POST',
+      body: JSON.stringify({
+        query: graphqlQuery,
+        variables: params ? params : undefined,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+        ...headers,
+      },
+      ...otherOptions,
+    })
   }
 }
 
