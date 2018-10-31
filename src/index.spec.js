@@ -21,6 +21,14 @@ describe('graphql-js-query', () => {
         '}'
       )
     })
+    it('should work with covered true option', () => {
+      const result = query('user')()('id')
+      expect(result.toString(true)).to.equal(
+        '{user{' +
+        'id' +
+        '}}'
+      )
+    })
     it('should work without arguments', () => {
       const result = query('user')()(
         'id',

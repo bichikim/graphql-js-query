@@ -31,7 +31,7 @@ const decorateData = (data: any, argumentMode: boolean = true): string => {
 
 const objectSmoothing = (
   object: {[name: string]: string | number | QueryBuilder},
-  argumentMode: boolean = true
+  argumentMode: boolean = true,
 ): string[] => {
   const args: string[] = []
 
@@ -56,18 +56,18 @@ export interface IQueryBuilderPayload {
 }
 
 export interface IRequestOptions {
-  cache?: RequestCache;
-  credentials?: RequestCredentials;
-  headers?: HeadersInit;
-  integrity?: string;
-  keepalive?: boolean;
-  method?: string;
-  mode?: RequestMode;
-  redirect?: RequestRedirect;
-  referrer?: string;
-  referrerPolicy?: ReferrerPolicy;
-  signal?: AbortSignal;
-  window?: any;
+  cache?: RequestCache
+  credentials?: RequestCredentials
+  headers?: HeadersInit
+  integrity?: string
+  keepalive?: boolean
+  method?: string
+  mode?: RequestMode
+  redirect?: RequestRedirect
+  referrer?: string
+  referrerPolicy?: ReferrerPolicy
+  signal?: AbortSignal
+  window?: any
 }
 
 export class QueryBuilder {
@@ -81,7 +81,7 @@ export class QueryBuilder {
     this._results = results
   }
 
-  toString() {
+  toString(covered: boolean = false) {
     const _results = this._results
     const _args = this._args
     let _string = this._name.join(':')
@@ -90,6 +90,9 @@ export class QueryBuilder {
     }
     if(_results && _results.length > 0){
       _string += `${decorateData(_results, false)}`
+    }
+    if(covered){
+      return `{${_string}}`
     }
     return _string
   }
@@ -129,5 +132,3 @@ export default (...name: string[]) => {
     }
   }
 }
-
-
