@@ -25,7 +25,7 @@ export declare class QueryBuilder {
     private readonly _args;
     private readonly _results;
     constructor({ name, args, results }: IQueryBuilderPayload);
-    toString(): string;
+    toString(covered?: boolean): string;
     request(url: string, params?: any, options?: IRequestOptions): Promise<any>;
 }
 declare const _default: (...name: string[]) => (args: any) => (...results: any[]) => QueryBuilder;
