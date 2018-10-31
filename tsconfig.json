@@ -6,9 +6,11 @@
       "dom",
       "esnext"
     ],
+    "outDir": "dist",
     "noEmitHelpers": false,
     "noImplicitAny": true,
-    "allowJs": true,
+    "allowJs": false,
+    "declaration": true,
     "moduleResolution": "node",
     "sourceMap": true,
     "emitDecoratorMetadata": true,
@@ -22,13 +24,12 @@
       "~~/*": ["./*"]
     }
   },
+
   "include": [
     "src/**/*.ts",
     "types/**/*.d.ts"
   ],
   "exclude": [
-    ".keep",
-    ".templates",
     "node_modules"
   ],
   "compileOnSave": false
