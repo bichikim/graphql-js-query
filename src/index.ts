@@ -81,7 +81,7 @@ export class QueryBuilder {
     this._results = results
   }
 
-  toString(covered: boolean = false) {
+  toString(covered: boolean | 'query' | 'mutation' = false) {
     const _results = this._results
     const _args = this._args
     let _string = this._name.join(':')
@@ -91,8 +91,11 @@ export class QueryBuilder {
     if(_results && _results.length > 0){
       _string += `${decorateData(_results, false)}`
     }
-    if(covered){
+    if(covered === true || covered === 'query'){
       return `{${_string}}`
+    }
+    if(covered === 'mutation'){
+      return `mutation{${_string}}`
     }
     return _string
   }

@@ -29,6 +29,22 @@ describe('graphql-js-query', () => {
         '}}'
       )
     })
+    it('should work with covered query option', () => {
+      const result = query('user')()('id')
+      expect(result.toString('query')).to.equal(
+        '{user{' +
+        'id' +
+        '}}'
+      )
+    })
+    it('should work with covered mutation option', () => {
+      const result = query('user')()('id')
+      expect(result.toString('mutation')).to.equal(
+        'mutation{user{' +
+        'id' +
+        '}}'
+      )
+    })
     it('should work without arguments', () => {
       const result = query('user')()(
         'id',
