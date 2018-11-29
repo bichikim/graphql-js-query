@@ -52,7 +52,7 @@ const objectSmoothing = (
 export interface IQueryBuilderPayload {
   name: string[]
   args: IArguments
-  results: any[]
+  results: string[]
 }
 
 export interface IRequestOptions {
@@ -85,7 +85,7 @@ export class QueryBuilder {
     const _results = this._results
     const _args = this._args
     let _string = this._name.join(':')
-    if(_args){
+    if(typeof _args === 'object' && Object.keys(_args).length > 0){
       _string += `(${objectSmoothing(_args).join(',')})`
     }
     if(_results && _results.length > 0){
@@ -125,8 +125,8 @@ export class QueryBuilder {
 }
 
 export default (...name: string[]) => {
-  return (args: any) => {
-    return (...results: any[]) => {
+  return (args?: IArguments) => {
+    return (...results: string[]) => {
       return new QueryBuilder({
         name,
         results,

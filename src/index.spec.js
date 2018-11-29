@@ -45,6 +45,14 @@ describe('graphql-js-query', () => {
         '}}'
       )
     })
+    it('should work with object param', () => {
+      const result = query('user')({})('id')
+      expect(result.toString('query')).to.equal(
+        '{user{' +
+        'id' +
+        '}}'
+      )
+    })
     it('should work without arguments', () => {
       const result = query('user')()(
         'id',
