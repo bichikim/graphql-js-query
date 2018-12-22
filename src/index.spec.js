@@ -1,8 +1,10 @@
 import query from './'
+import sinon from 'sinon'
 describe('graphql-js-query', () => {
   const image = query('image')({size: 50})('url', 'width', 'height')
 
   describe('toString', () => {
+
     it('should work', () => {
       const result = query('user')({name: 'bichi'})(
         'id',
@@ -21,6 +23,7 @@ describe('graphql-js-query', () => {
         '}'
       )
     })
+
     it('should work with covered true option', () => {
       const result = query('user')()('id')
       expect(result.toString(true)).to.equal(
@@ -29,6 +32,7 @@ describe('graphql-js-query', () => {
         '}}'
       )
     })
+
     it('should work with covered query option', () => {
       const result = query('user')()('id')
       expect(result.toString('query')).to.equal(
@@ -37,6 +41,7 @@ describe('graphql-js-query', () => {
         '}}'
       )
     })
+
     it('should work with covered mutation option', () => {
       const result = query('user')()('id')
       expect(result.toString('mutation')).to.equal(
@@ -45,6 +50,7 @@ describe('graphql-js-query', () => {
         '}}'
       )
     })
+
     it('should work with object param', () => {
       const result = query('user')({})('id')
       expect(result.toString('query')).to.equal(
@@ -53,6 +59,7 @@ describe('graphql-js-query', () => {
         '}}'
       )
     })
+
     it('should work without arguments', () => {
       const result = query('user')()(
         'id',
@@ -68,12 +75,14 @@ describe('graphql-js-query', () => {
         '}'
       )
     })
+
     it('should work without results', () => {
       const result = query('user')({name: 'bichi'})().toString()
       expect(result.toString()).to.equal(
         'user(name:"bichi")'
       )
     })
+
     it('should work with complex arguments', () => {
       const result = query('user')({
         user: {name: 'bob'},
@@ -86,33 +95,32 @@ describe('graphql-js-query', () => {
         'user(user:{name:"bob"},friends:[{id:1,name:"ann"},{id:2,name:"tom"}])'
       )
     })
+
     it('should work without arguments & results', () => {
       const result = query('user')()()
       expect(result.toString()).to.equal('user')
     })
+
     it('should work without arguments & results', () => {
       const result = query('any','my', 'user')({name: 'bichi'})('name', 'age')
       expect(result.toString()).to.equal('any:my:user(name:"bichi"){name,age}')
     })
   })
   describe('request', () => {
-    let realFetch, url, request
-    before(() => {
-      realFetch = window.fetch
-      window.fetch = (_url, _request) => {
-        url = _url
-        request = _request
-        return Promise.resolve('result')
-      }
-
+    // let realFetch, url, request
+    let stub
+    beforeEach(() => {
+      stub = sinon.stub(window, 'fetch')
     })
 
-    after(() => {
-      window.fetch = realFetch
+    afterEach(() => {
+      stub.restore()
     })
 
     it('should work', async () => {
+      stub.resolves('result')
       const result = await image.request('abc')
+      const [url, request] = stub.getCall(0).args
       expect(url).to.equal('abc')
       expect(JSON.parse(request.body)).to.deep.equal({'query':'image(size:50){url,width,height}'})
       expect(request.headers).to.deep.equal({'Content-Type': 'application/json'})
@@ -120,7 +128,9 @@ describe('graphql-js-query', () => {
     })
 
     it('should work with params', async () => {
+      stub.resolves('result')
       const result = await image.request('abc', {item: 'item'})
+      const [url, request] = stub.getCall(0).args
       expect(url).to.equal('abc')
       expect(JSON.parse(request.body)).to.deep.equal({
         'query':'image(size:50){url,width,height}',
@@ -131,7 +141,9 @@ describe('graphql-js-query', () => {
     })
 
     it('should work with params', async () => {
+      stub.resolves('result')
       const result = await image.request('abc', {item: 'item'}, {mode: 'cors'})
+      const [url, request] = stub.getCall(0).args
       expect(url).to.equal('abc')
       expect(JSON.parse(request.body)).to.deep.equal({
         'query':'image(size:50){url,width,height}',

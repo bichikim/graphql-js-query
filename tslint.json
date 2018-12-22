@@ -27,16 +27,21 @@
     "no-require-imports": true,
     "no-string-literal": true,
     "trailing-comma": [true, {
-      "multiline": "always",
+      "multiline": {
+        "objects": "always",
+        "arrays": "always",
+        "functions": "always",
+        "typeLiterals": "never"
+      },
       "singleline": "never"
     }],
-    "no-trailing-whitespace": true,
     "no-use-before-declare": false,
     "quotemark": [true, "single"],
     "type-literal-delimiter": false,
     "radix": true,
     "only-arrow-functions": [true, "allow-named-functions"],
     "no-empty-interface": false,
+    "no-trailing-whitespace": [true, "ignore-jsdoc"],
     "no-string-throw": true,
     "semicolon": [true, "never"],
     "triple-equals": [true, "allow-null-check"],
@@ -69,7 +74,7 @@
         "variable-declaration": "onespace"
       }
     ],
-     "max-classes-per-file": [false, 1],
+    "max-classes-per-file": [false, 1],
     "object-literal-sort-keys": false,
     "space-before-function-paren": [true, {
       "anonymous": "never",

@@ -51,7 +51,7 @@ const objectSmoothing = (
 
 export interface IQueryBuilderPayload {
   name: string[]
-  args: IArguments
+  args?: IArguments
   results: string[]
 }
 
@@ -72,7 +72,7 @@ export interface IRequestOptions {
 
 export class QueryBuilder {
   private readonly _name: string[]
-  private readonly _args: IArguments
+  private readonly _args?: IArguments
   private readonly _results: any[]
 
   constructor({name, args, results}: IQueryBuilderPayload) {

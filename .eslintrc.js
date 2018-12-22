@@ -1,6 +1,6 @@
 /* eslint-disable max-len,no-magic-numbers */
 module.exports = {
-  plugins: ['html', 'vue', 'typescript', ],
+  plugins: ['html', 'typescript', 'import'],
   env: {
     'commonjs': true,
     'browser': true,
@@ -8,6 +8,11 @@ module.exports = {
     'amd': true,
     'node': true,
     'mocha': true,
+  },
+  settings: {
+    'import/parsers': {
+      'typescript-eslint-parser': [ '.ts', '.tsx' ],
+    }
   },
   overrides: [
     {
@@ -19,35 +24,37 @@ module.exports = {
     {
       files: ['*.ts'],
       rules: {
+        'indent': 'off',
         'new-cap': 'off',
         'no-undef': 'off',
         'no-undefined': 'off',
+        'no-unused-vars': 'off',
+        'no-dupe-class-members': 'off',
       }
     },
     {
-      files: ['*.spec.js'],
+      files: [
+        '*.spec.js',
+        '*.spec.ts',
+        '*.test.ts',
+        '*.test.js',
+      ],
       rules: {
+        'no-magic-numbers': 'off',
+        'max-nested-callbacks': 'off',
         'no-undef': 'off',
       }
     }
   ],
-  'extends': ['eslint:recommended', 'plugin:vue/recommended'],
+  'extends': ['eslint:recommended', 'plugin:vue/recommended', 'plugin:import/warnings'],
   parserOptions: {
     parser: 'typescript-eslint-parser',
     sourceType: 'module',
   },
   rules: {
     /**************************************
-     * chai
+     * import
      **************************************/
-
-    /**************************************
-     * vue options
-     **************************************/
-    'no-dupe-keys': 'error',
-    'vue/jsx-uses-vars': 'error',
-    'vue/max-attributes-per-line': ['error', {'singleline': 5, 'multiline': {'max': 3, 'allowFirstLine': false}}],
-    'vue/require-default-prop': 'error',
     /**************************************
      * common javascript options
      **************************************/
@@ -56,6 +63,8 @@ module.exports = {
     'no-undef': 'error',
     'no-console': ['warn', {allow: ['warn', 'error']}],
     'linebreak-style': 'off',
+    'no-prototype-builtins': 'off',
+    'class-methods-use-this': 'off',
     // on
     'array-callback-return': 'error',
     'arrow-parens': ['error', 'always'],
@@ -63,8 +72,16 @@ module.exports = {
     'block-scoped-var': 'error',
     'block-spacing': ['error', 'never'],
     'camelcase': ['error', {'properties': 'always'}],
-    'class-methods-use-this': 'error',
     'comma-dangle': ['error', 'always-multiline'],
+    'capitalized-comments': [
+      'error',
+      'always',
+      {
+        'line': {
+          'ignorePattern': '^(\w)*',
+        },
+      }
+    ],
     'comma-style': ['error', 'last'],
     'complexity': ['error', 20],
     'consistent-this': ['error', 'self'],
@@ -74,10 +91,27 @@ module.exports = {
     'global-require': 'error',
     'guard-for-in': 'error',
     'indent': ['error', 2, { "SwitchCase": 1 }],
-    'keyword-spacing': ['error', {'before': false, 'after': false, 'overrides': {'const' : {before: true, after: true}, 'let' : {before: true, after: true}, 'from': {before: true, after: true}, 'import': {before: true, after: true}, 'as': {before: true, after: true}, 'export': {after: true}, 'return': {before: true, after: true}, 'this': {before: true, after: true}, 'case':{after: true}, 'extends': {before: true}, 'implements': {before: true},},}],
+    'keyword-spacing': ['error', {
+      'before': false,
+      'after': false,
+      'overrides': {
+        'default': {before: true, after: true},
+        'const' : {before: true, after: true},
+        'let' : {before: true, after: true},
+        'from': {before: true, after: true},
+        'import': {before: true, after: true},
+        'as': {before: true, after: true},
+        'export': {after: true},
+        'return': {before: true, after: true},
+        'this': {before: true, after: true},
+        'case':{after: true},
+        'extends': {before: true},
+        'implements': {before: true},
+      },
+    }],
     'max-depth': ['error', {'max': 4}],
     'max-len': ['error', 100],
-    'max-lines': 'error',
+    'max-lines': ['error', 1000],
     'max-nested-callbacks': ['error', {'max': 3}],
     'max-params': ['error', {'max': 6}],
     'max-statements-per-line': ['error', {'max': 2}],
@@ -120,7 +154,6 @@ module.exports = {
     'no-param-reassign': 'error',
     'no-plusplus': 'error',
     'no-proto': 'error',
-    'no-prototype-builtins': 'error',
     'no-return-assign': 'error',
     'no-return-await': 'error',
     'no-script-url': 'error',
@@ -149,19 +182,6 @@ module.exports = {
     'space-before-blocks': ['error', {'functions': 'always', 'keywords': 'never', 'classes': 'always'}],
     'space-before-function-paren': ['error', {'anonymous': 'never', 'named': 'never', 'asyncArrow': 'always'}],
     'vars-on-top': 'error',
-    // 'consistent-return': 'error', // disable for now
-    // 'func-style': ['error', 'expression', {'allowArrowFunctions': true}],
-    // 'no-mixed-operators': ['error', {groups: [["&&", "||"],]}],
-    // 'no-shadow': ['error', {'builtinGlobals': false, 'hoist': 'all'}],
-    // no-invalid-this: 'error',
-    // no-mixed-requires: 'error'
-    // no-path-concat: 'error'
-    // no-process-env: 'error'
-    // no-process-exit: 'error'
-    // no-restricted-modules
-    // no-restricted-properties
-    // no-warning-comments
-    //'max-statements': 'error'
 
     /*************************************
      * type script options
@@ -184,7 +204,8 @@ module.exports = {
     'typescript/no-namespace': 'error',
     'typescript/no-parameter-properties': 'error',
     'typescript/no-triple-slash-reference': 'error',
-    'typescript/no-unused-vars': 'error',
+    // it has an error
+    // 'typescript/no-unused-vars': 'error',
     'typescript/type-annotation-spacing': [
       'error', {
         'before': false,
